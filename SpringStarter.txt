@@ -1,0 +1,28 @@
+Spring Starter:
+
+Spring is mainly used for:-
+	1. Inversion of Control - generation and management of beans
+	2. Dependency Injection - injecting the dependencies of beans
+	
+	
+XML Configuration:-
+	1. Create applicationContext.xml in src directory.
+	2. Declare <bean> inside this xml file
+	3. ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml") in java file to import the xml
+	4. getBean() from context (defined above).
+	5. Once you get the bean we can use it to call functions.
+	
+	Structure of bean definition:-
+	
+	<bean id = "name used to call bean in getBean()" class = "class whose bean this is to be">
+		<scope = "prototype/ singleton"> {if prototype, every time new object is declared, you will get new object, if singleton, one object will be reused}
+		
+	</bean>
+	
+	For dependency injection:-
+	
+	This can be achieved in two different ways:
+		1. Through constructor injection:-
+			
+		2. Through setter methods
+		
