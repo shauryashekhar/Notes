@@ -1,0 +1,46 @@
+Docker Notes
+
+Run Docker containers from images -> Basic Scope
+
+docker ps -> lists containers which are running
+
+docker ps -a -> lists all containers
+
+docker images -> lists all docker images
+
+docker pull _____ -> pulls docker image to be run later
+
+docker pull ____:tag -> pulls tag docker image
+
+docker run ______ -> pulls docker image and runs it
+
+docker -p hostPort:containerPort run ______ -> run with port configured
+
+docker -v ______ run _____ -> run with volume configured
+
+docker -i run _____ -> run container in interactive mode
+
+docker -t run _____ -> run container with terminal
+
+docker -it run _____ -> run docker with both of the above
+
+docker -e ENV_NAME=ENV_VALUE run _____ -> run with environment variable set
+
+Docker Images:
+
+	Basic Form:
+	
+		FROM <>
+		
+		RUN <>
+		
+		CMD <> / ENTRYPOINT <>
+		
+	Capital Letters -> instructions & <> -> arguments
+	
+	in case you run as - docker run ____ 10
+	
+	For CMD <>, will get replaced by 10.
+	
+	For ENTRYPOINT <>, will get appended by 10.
+	
