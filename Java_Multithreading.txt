@@ -22,6 +22,32 @@ Java Multithreading is of two types:-
 		- es.shutdown() - 										// finishes work that is already assigned.
 		- es.awaitTermination(60, TimeUnit.SECONDS) -   		// wait for 60 seconds for work to finish.
 		
+For transferring results from thread computations back to driver classes :- 
+	- Callable Interface (similar to Runnable interface, but can return results and throw exceptions).
+		- only method is the call() method.
+			- ex: The class implements Callable<ReturnType> Interface
+				- Implements <returnType> call() method - which returns the result of the task performed by the thread.
+				
+				- using the ExecutorService (es) method defines above create a thread pool
+				- call es.submit(class which implements runnable / callable interface and has a run() / call() method).
+		
+	- Future Interface (represents results from a thread task)
+		- returned by ExecutorService.submit()
+		- key method is get() - which is blocked till task completes.
+		- can return callable interface result & callable interface exception.
+			- ex. Declare an array of Future<returnType>[] futures = new Future[3] 	// size is dependent on number of processing tasks which will return values.
+				- futures[i] = es.submit(adder). 									// to store the result of the submission of task to thread.
+				- once processing is done, loop through futures array and call future.get() to get the result of each individual processing. 	// get blocks until processing is complete.
 
-For transferring results from thread computations back to driver classes :- we use the concept of Futures.
-	 
+Synchronising Memory Access
+	- using the synchronized keyword
+		- used as modifiers for functions
+		- implemented internally at the object instance level, thus is one thread is calling into a function with synchronized keyword, no other thread can enter any other function of the class with the synchronized keyword. 
+		- constructor can't be marked as synchronized.
+		- cons:- has significant overhead 
+		
+	- Manual Synchronization
+		- does not make use of synchronized keyword.
+		- makes use of synchronized statement block around the actual core critical section which needs synchronization. 
+			- ex: synchronized(object name) { ........ function call ......... }
+			
