@@ -1,0 +1,27 @@
+Java Multithreading is of two types:-
+	1. Thread class
+	2. ExecutorService
+	
+1. Thread class (finegrained mechanism for controlling the creation of threads, their workloads and termination)
+	- implement the Runnable Interface (run() method will have to be defined).
+	- write the workload of the individual thread in the run() method. Usually it can be a function which is defined in the same class.
+	
+	- in Driver Class:-
+		- Declare objects of thread type and pass in the constructor the object of the class which implements Runnable interface.
+			ex. Thread thread = new Thread(adder);
+		- call thread.start()			// to instruct threads to start working by calling the run() method defined when implementing the Runnable interface.
+		- call thread.join() 			// the main thread waits for all threads to complete before continuing. 
+		
+2. ExecutorService (auto manages the the creation of threads, their workloads and termination)
+	- Makes use of thread pools - pre-generated threads. ex:- newFixedThreadPool(3) will spawn 3 threads.
+		- ex: ExecutorService es = Executors.newFixedThreadPool(3);  // for generation of thread pool.
+		
+	- in Driver class:-
+		- call submit() and pass it the object of the class which implements Runnable interface
+			- es.submit(adder);									// calls the run() method defined when impl the Runnable interface.
+		- es.shutdown() - 										// finishes work that is already assigned.
+		- es.awaitTermination(60, TimeUnit.SECONDS) -   		// wait for 60 seconds for work to finish.
+		
+
+For transferring results from thread computations back to driver classes :- we use the concept of Futures.
+	 
