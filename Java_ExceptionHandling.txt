@@ -1,0 +1,65 @@
+Java Exception Handling
+	- try{ ...... // code to execute } catch(Exception e) {......// code to execute in case of exception } finally {..........// code to execute in normal or exception case}
+	- get message of exception - e.getMessage();
+	- get stack trace of exception - get.printStackTrace();
+	- can nest try catch within finally blocks
+	
+- Exception Class Hierarchy
+	- Each exception is an object
+	- this object inherits the Throwable class
+	- Throwable inherits from 
+		- Error class - any number of other classes that Error inherits from are not of concern -> signify virtual machine errors. -> treated as UNCHECKED Exception.
+			- ex. Linkage Error
+		- Exception Class which inherits from -
+			- RunTime Exception -> generally errors in program -> UNCHECKED Exception
+				- ex: NullPointer Exception 
+			- IO Exception -> CHECKED Exception
+				- ex: Interacting with a file which does not exist.
+			- Other Possible Exceptions. -> CHECKED Exception
+			
+- CHECKED Exceptions <- any exception which inherits from Exception but not RunTime Exception
+	- Vital that these are handled correctly.
+	- compiler checks if there is a chance that such exceptions can be thrown and whether they have been handled or not.
+	- if not handled, compiler will raise an error.
+	
+- UNCHECKED Exception <- any exception which inherits from RunTime Exception.
+	- errors under RunTime Exception 
+	- can handle but it is not mandatory that you do so.
+	- if not handled, not going to raise error
+	
+- Catching Exceptions
+	- multiple catch blocks possible for specific exception types
+	- important to understand type hierarchy
+	- start testing from top to bottom
+	- first assignable one is used
+		- Exception at top
+			-	RunTime Exception (UNCHECKED Exception)
+				- NumberFormat Exception 
+			- IO Exception (CHECKED Exception)
+				- FileNotFound Exception
+				
+- Exceptions and Methods
+	- if exception is encountered, Java looks up the call stack to the point where it sees a catch block which can handle the exception. Control is then directly passed there.
+	- Exceptions propogate up the call stack - thus they can cross method boundaries.
+	- can throw Exceptions which are caught by the caller or try/ catch the exception within the function definition.
+	- use try / finally with throws clause will cause finally to execute and then control to pass up the call stack.
+	- overriden methods should have throws clause which should be compatible with the throws clause of method it is overriding by 3 following ways:-
+		- not throw exceptions 
+		- throw same exception
+		- throw derived exception (Exception which is lower than the exception thrown by other method)
+
+- Throw Exception
+	- throw keyword
+	- Exceptions are objects and thus have to be created before they are thrown 
+	- Tying one exception to another to pass information about the exception that is thrown
+		- all Exception classes have initCause() method which allows you to associate an exception with another exception.
+		- many exception classes provide a constructor which accepts an originating exception.
+		
+- Creating Custom Exception
+	- inherit directly from Exception class -> checked Exception
+	- generally constructors are only members
+		- constructor for string detail
+		- constructor for string detail + originating exception
+	- most required functionality is inherited.
+		
+		
