@@ -1,0 +1,76 @@
+JDBC 
+
+- remember the username and password of MySQL that you provide during installation
+
+- Connect JDBC Driver to Database
+	- DriverManager with services
+	- Class.forName() with DriverManager
+	- Data Source
+		- JNDI
+		- Java EE
+		- CDI
+		
+- Process -> DriverManager -- gives --> Connection -- can be used to execute a --> Statement / PreparedStatement --> executeQuery() {returns resultSet} / executeUpdate() {returns an int with count of rows affected / or in case of insert can return auto generated key} -> close statement, connection, resultSet.
+		
+- JDBC Interfaces
+	- DriverManager - which maintains a registry of drivers
+	- Driver - vendor implementations of JDBC 
+	- Connection - represents actual connection to database
+	- Statement - SQL
+	- PreparedStatement - SQL
+	- ResultSet - data returned by SQL
+	
+- Connection Formation
+	- Using DriverManager:
+		- Connection connection = DriverManager.getConnection("${URI}") // URI -> pass which JDBC driver needs to be used along with the username and password
+									URI: jdbc:<driver>:<host>/<database-name> username password
+		- to test if connection is valid you can call connection.isValid(2). This returns a boolean signifying if the connection is valid. 
+		
+		- remember to close database connection - connection.close() -> also close statement and resultSet objects
+		
+		To register driverManagers:- META-INF/services/java.sql.driver
+		
+	- Class.forName() with DriverManager
+		- mainly for legacy applications in which the DriverManager had to be specifically loaded with the vendor specific implementation.
+			- Class.forName("${URI}").newInstance()					// responsible for registering the vendor implementation with the DriverManager.
+			
+	- Data Source (further abstracts the DriverManager)
+		- J2EE JNDI
+			- 
+			
+- Query Databases
+	- connection object allows us to create a statement object. The results are stored in ResultSet objects after executeQuery() is called.
+		- ex: Statement statement = connection.createStatement(); 								// create statement object from connection
+			  ResultSet rs = statement.executeQuery("Select * from Products");					// create resultSet object 
+			  
+		- while(rs.next()) -> 																	// iterate over results returned from executeQuery()
+			  - Extract column data from rs using rs.getString("columnLabel") or rs.getInt("columnIndex") or rs.getLong("...")
+			  
+			  
+- Handling Exceptions
+	- Most exceptions will be a type of SQLException
+	- get more info using if(e instanceof SQLException) -> cast the normal exception to SQLException as (SQLException sqlException = (SQLException) exception) and then call functions like sqlException.getErrorCode() & sqlException.getSQLState()
+	- Error Code is vendor specific error code according to the specific database you are using.
+	- SQLState is standardized across vendors.
+	
+- PreparedStatement better than Statement, because Statement puts a strain on memory as it requires it to compile SQL Query plan repeatedly everytime it is called.
+	- in case of PreparedStatement, the SQL Query Plan is stored and reused later.
+		- PreparedStatement preparedStatement = connection.prepareStatement("select * from ...");
+		- ResultSet rs = preparedStatement.executeQuery();
+	- PreparedStatement can accept parameters
+		- in prepareStatement() call, replace parameters with ?. 
+		- set the values of ? using the set Methods 
+			- ex: preparedStatement.setDouble(1, ....);
+				  preparedStatement.setLong(2, ....);
+				  
+- Update Return Value - To run an update SQL -> use executeUpdate();
+	- use preparedStatement.executeUpdate(); -> returns an integer value with the count of the number of rows affected.
+	
+- Insert new rows -> also use executeUpdate()
+	- Added a parameter when getting preparedStatement object from connection - Statement.RETURN_GENERATED_KEYS - this is used to get the auto generated keys such as an auto-increment primary key.
+	- resultSet will have 1 row & 1 column -> this will contain the auto generated key.
+	
+- Delete Rows
+	- again use executeUpdate() -> returns the count of the number of rows affected.
+	
+	
